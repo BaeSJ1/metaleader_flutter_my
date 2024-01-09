@@ -1,0 +1,48 @@
+name: metaleader
+description: 메타 리더십 수첩
+
+publish_to: 'ITNJ'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  get: ^4.6.5
+  http:
+  intl:
+  shared_preferences: ^2.0.15
+  flutter_spinkit:
+  flutter_inappwebview: ^5.7.1
+
+
+  flutter_localizations:
+    sdk: flutter
+
+
+  firebase_messaging:
+  firebase_core:
+  firebase_analytics:
+  flutter_local_notifications:
+  flutter_linkify: ^5.0.2
+
+
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+
+  uses-material-design: true
+
