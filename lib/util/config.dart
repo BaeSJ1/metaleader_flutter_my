@@ -9,5 +9,4 @@ class Config {
   static const String APP_AD_KEY = "SMART_MEMBER_NOTE";
 
   static String TOKEN = '';
-  static List<UserInfo> userList = [];
 }

@@ -1,11 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:metaleader/util/colors.dart';
 import 'package:metaleader/view/home/home.dart';
 
+final localhostServer = InAppLocalhostServer(documentRoot: 'assets');
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.getDefaultUserAgent();
+    //setWebContentsDebuggingEnabled(kDebugMode);
+  }
+
+  if (!kIsWeb) {
+    await localhostServer.start();
+  }
   runApp(const MyApp());
 }
 
