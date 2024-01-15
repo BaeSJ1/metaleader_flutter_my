@@ -40,4 +40,8 @@ class HomeController extends GetxController
     webViewController?.loadUrl(urlRequest: URLRequest(url: WebUri(url)));
  }
 
+  createWeb(InAppWebViewController web) {
+    webViewController = web;
+  }
+
 }

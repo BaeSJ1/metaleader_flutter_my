@@ -19,6 +19,7 @@ class Home extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return  Obx(() => Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: brandColor),
         toolbarHeight: 0,
@@ -31,15 +32,25 @@ class Home extends GetView<HomeController> {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        if(await controller.webViewController!.canGoBack()){
+                          controller.webViewController!.goBack();
+                        }
+                      },
                       icon: const Icon(Icons.arrow_back_rounded),
                     ),
                     IconButton(
-                      onPressed: (){},
+                      onPressed: () async {
+                        if(await controller.webViewController!.canGoForward()){
+                          controller.webViewController!.goForward();
+                        }
+                      },
                       icon: const Icon(Icons.arrow_forward_rounded),
                     ),
                     IconButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          controller.webViewController!.reload();
+                        },
                         icon: const Icon(Icons.refresh_rounded)
                     ),
                     IconButton(
@@ -71,7 +82,9 @@ class Home extends GetView<HomeController> {
                         ),
                     ),
                     IconButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          URLRequest(url: WebUri(controller.initPageUrl.value),);
+                        },
                         icon: const Icon(Icons.settings)),
                   ],
                 ),
@@ -80,6 +93,12 @@ class Home extends GetView<HomeController> {
                   child: InAppWebView(
                     initialUrlRequest:
                     URLRequest(url:WebUri(controller.initPageUrl.value)),
+                    onWebViewCreated: (web){
+                      controller.createWeb(web);
+                    },
+                    onTitleChanged: (web, title){
+                      //controller.updateTitle(title);
+                    },
                   ),
               ),
             ],
