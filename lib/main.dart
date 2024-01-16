@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:metaleader/util/colors.dart';
+import 'package:metaleader/style/my_color.dart';
+import 'package:metaleader/util/screen_path.dart';
+import 'package:metaleader/view/setting.dart';
 
 import 'view/home.dart';
 
@@ -29,7 +31,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GetMaterialApp(
-      title: 'WEB VIEW',
+      title: 'Webby Test',
+      debugShowCheckedModeBanner: false,
       color: Colors.white,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -39,19 +42,17 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('ko', 'KR'),
       ],
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: "NotoSansCKJ",
-          iconTheme: const IconThemeData(
-            color: CustomColors.iconColor,
-          ),
-          textTheme: const TextTheme(
-              displayMedium: TextStyle(color: CustomColors.textColor))),
-      initialRoute: '/home',
+          colorScheme: ColorScheme.fromSeed(seedColor: brandColor),
+      ),
       getPages: [
         GetPage(
-            name: '/home', page: () => Home(), binding: HomeBinding()),
+            name: ScreenPath.home, page: () => Home(), binding: HomeBinding()),
+        GetPage(
+          name: ScreenPath.setting, page: () => Setting(), binding: SettingBinding(),
+        )
       ],
+      initialRoute: '/home',
     );
   }
 }

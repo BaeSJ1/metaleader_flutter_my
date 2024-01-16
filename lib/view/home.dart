@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:metaleader/controller/home_controller.dart';
-import 'package:metaleader/util/colors.dart';
 
 import '../style/my_color.dart';
 
@@ -15,25 +14,32 @@ class HomeBinding extends Bindings {
 }
 
 class Home extends GetView<HomeController> {
-
   @override
   Widget build(BuildContext context) {
-    return  Obx(() => Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: brandColor),
-        toolbarHeight: 0,
-      ),
-      body:SafeArea(
-          child: Column(
+    return Obx(() => Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            systemOverlayStyle:
+                SystemUiOverlayStyle(statusBarColor: brandColor),
+            toolbarHeight: 0,
+          ),
+          body: SafeArea(
+              child: Column(
             children: [
+              Expanded(
+                  child: ListView.builder(
+                    // scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return ListTile(title: Text('Item $index'));
+                      })),
               SizedBox(
                 height: 60,
                 child: Row(
                   children: [
                     IconButton(
                       onPressed: () async {
-                        if(await controller.webViewController!.canGoBack()){
+                        if (await controller.webViewController!.canGoBack()) {
                           controller.webViewController!.goBack();
                         }
                       },
@@ -41,68 +47,76 @@ class Home extends GetView<HomeController> {
                     ),
                     IconButton(
                       onPressed: () async {
-                        if(await controller.webViewController!.canGoForward()){
+                        if (await controller.webViewController!
+                            .canGoForward()) {
                           controller.webViewController!.goForward();
                         }
                       },
                       icon: const Icon(Icons.arrow_forward_rounded),
                     ),
                     IconButton(
-                        onPressed: (){
+                        onPressed: () {
                           controller.webViewController!.reload();
                         },
-                        icon: const Icon(Icons.refresh_rounded)
-                    ),
+                        icon: const Icon(Icons.refresh_rounded)),
                     IconButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        controller.goToHome();
+                      },
                       icon: const Icon(Icons.home),
                     ),
                     Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(child: TextField(
-                                decoration: const InputDecoration(
-                                  contentPadding:
-                                    EdgeInsets.fromLTRB(25, 0, 25, 0)
-                                ),
-                                controller: controller.url,
-                                keyboardType: TextInputType.url,
-                                textInputAction: TextInputAction.search,
-                                onSubmitted: (value){
-                                  controller.goToURL(value);
-                                },
-                              ))
-                            ],
-                          ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(40),
                         ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: TextField(
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(25, 0, 25, 0),
+                                enabledBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                focusedErrorBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                border: InputBorder.none,
+                              ),
+                              controller: controller.url,
+                              keyboardType: TextInputType.url,
+                              textInputAction: TextInputAction.search,
+                              onSubmitted: (value) {
+                                controller.goToURL(value);
+                              },
+                            ))
+                          ],
+                        ),
+                      ),
                     ),
                     IconButton(
-                        onPressed: (){
-                          URLRequest(url: WebUri(controller.initPageUrl.value),);
+                        onPressed: () {
+                          controller.showSetting();
                         },
                         icon: const Icon(Icons.settings)),
                   ],
                 ),
               ),
               Expanded(
-                  child: InAppWebView(
-                    initialUrlRequest:
-                    URLRequest(url:WebUri(controller.initPageUrl.value)),
-                    onWebViewCreated: (web){
-                      controller.createWeb(web);
-                    },
-                    onTitleChanged: (web, title){
-                      //controller.updateTitle(title);
-                    },
-                  ),
-              ),
+                flex: 9,
+                child: InAppWebView(
+                  key: controller.webViewKey,
+                  onWebViewCreated: (web) {
+                    controller.webViewController = web;
+                  },
+                  initialUrlRequest:
+                      URLRequest(url: WebUri(controller.initPageUrl.value)),
+                ),
+              )
             ],
-          ))
-    ,));
+          )),
+        ));
   }
 }

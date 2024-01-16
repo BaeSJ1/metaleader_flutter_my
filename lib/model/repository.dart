@@ -8,10 +8,29 @@ class Repository extends GetConnect {
   final remoteApi = RemoteAPI();
   final localApi = LocalAPI();
 
+  setInitPage(String url) => localApi.setInitPage(url);
+  getInitPage() => localApi.getInitPage();
+
 }
 
 class LocalAPI {
   late SharedPreferences sharedPreferences;
+
+  setInitPage(String url) async{
+    sharedPreferences = await SharedPreferences.getInstance();
+    bool isSuccess = await sharedPreferences.setString(Config.INIT_URL, url);
+    return isSuccess;
+  }
+
+  getInitPage() async{
+    sharedPreferences = await SharedPreferences.getInstance();
+    String? url = sharedPreferences.getString(Config.INIT_URL);
+    if(url == null){
+      return 'http://home.imssam.com/';
+    } else {
+      return url;
+    }
+  }
 
 
 }
