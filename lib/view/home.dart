@@ -14,6 +14,8 @@ class HomeBinding extends Bindings {
 }
 
 class Home extends GetView<HomeController> {
+
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -26,15 +28,43 @@ class Home extends GetView<HomeController> {
           body: SafeArea(
               child: Column(
             children: [
-              Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 120,
-                            child: ListTile(title: Text('탭 $index'),));
-                      })),
+              Row(
+                children: [
+                  Expanded(
+                      child: Container(
+                        height: 50,
+                        child: GetBuilder<HomeController>(
+                          builder: (controller) {
+                            return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: controller.tabs.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                      width: 150,
+                                      child: ListTile(
+                                        title: Text(controller.tabs[index] as String),
+                                        trailing: IconButton(
+                                            onPressed: (){
+                                              controller.removeTabs(index);
+                                            }, icon: Icon(Icons.close_rounded)),
+                                        onTap: (){
+                                          controller.goToTabPage(index);
+                                        },
+                                      ),
+                                  );
+                                },
+                            );
+                          }
+                        ),
+                      ),
+                  ),
+                  IconButton(
+                      onPressed: (){
+                        controller.addTabs(controller.tabs.length);
+                      }, icon: Icon(Icons.add_rounded))
+                ],
+              ),
+
               SizedBox(
                 height: 60,
                 child: Row(
