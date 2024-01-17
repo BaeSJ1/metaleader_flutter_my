@@ -15,7 +15,6 @@ class HomeBinding extends Bindings {
 
 class Home extends GetView<HomeController> {
 
-
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(

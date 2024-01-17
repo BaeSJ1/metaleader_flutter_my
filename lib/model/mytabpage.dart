@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:metaleader/view/home.dart';
 
-class myTabPage extends StatelessWidget {
-  const myTabPage({super.key, required this.tabIndex});
+class MyTabPage extends StatelessWidget {
+  const MyTabPage({super.key, required this.tabIndex});
 
   final int tabIndex;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('탭 $tabIndex 페이지'),
-      ),
-      body: Center(
-        child: Text('이것은 탭 $tabIndex 페이지입니다.'),
-      ),
-    );
+    return Home();
   }
 }

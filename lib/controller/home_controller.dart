@@ -17,9 +17,11 @@ class HomeController extends GetxController {
   //RxList<Widget> tabs = RxList([]);
   final url = TextEditingController();
   var tabs = List.generate(1, (index) => '탭 ${index + 1}');
+  final Map<int, Widget> tabPages = {};
 
   addTabs(int index) {
     tabs.add('탭 ${index + 1}');
+    tabPages[index] = MyTabPage(tabIndex: index);
     update();
   }
 
@@ -41,7 +43,9 @@ class HomeController extends GetxController {
   }
 
   goToTabPage(int tabIndex){
-    Get.to(() => myTabPage(tabIndex: tabIndex));
+    if(tabPages.containsKey(tabIndex)){
+      Get.to(() => tabPages[tabIndex]!);
+    }
   }
 
   createWeb(InAppWebViewController web) {
