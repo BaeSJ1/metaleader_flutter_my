@@ -28,10 +28,12 @@ class Home extends GetView<HomeController> {
             children: [
               Expanded(
                   child: ListView.builder(
-                    // scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.horizontal,
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        return ListTile(title: Text('Item $index'));
+                        return Container(
+                          width: 120,
+                            child: ListTile(title: Text('탭 $index'),));
                       })),
               SizedBox(
                 height: 60,
